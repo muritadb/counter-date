@@ -17,7 +17,6 @@ const App = () => {
 
   const handleClickPlusInterval = () => {
     setInter((prev) => prev + 1)
-    console.log("Clicou no mais do Intervalo")
   }
 
   const handleClickMinusCount = () => {
