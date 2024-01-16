@@ -2,25 +2,43 @@ import { useState } from "react"
 import "./index.css"
 
 
-const App = () => {
-  const [interval, setInter] = useState(1)
-  const [count, setCount] = useState(1)
-
+const DateMsg = ({ count }) => {
   const date = new Date()
-  const dateFormated = new Intl.DateTimeFormat("pt-br", { dateStyle: "full" })
+  const formattedDate = new Intl.DateTimeFormat("pt-br", { dateStyle: "full" })
     .format(date.setDate(date.getDate() + count))
 
-  const handleClickMinusInterval = () => setInter((i) => i === 1 ? i : i - 1)
-  const handleClickPlusInterval = () => setInter((prev) => prev + 1)
-  const handleClickMinusCount = () => setCount((i) => i - interval)
-  const handleClickPlusCount = () => setCount((c) => c + interval)
+  const singularPlural = count === 1 || count === -1 ? "dia" : "dias"
+
+  return (
+    <h2>
+      {count > 0
+        ? `${count} ${singularPlural} a partir de hoje será ${formattedDate}`
+        : count < 0
+          ? `${Math.abs(count)} ${singularPlural} atras era ${formattedDate}`
+          : `Hoje é ${formattedDate}`
+
+      }
+    </h2>
+  )
+}
+
+const App = () => {
+  const [step, setStep] = useState(1)
+  const [count, setCount] = useState(0)
+
+
+
+  const handleClickMinusInterval = () => setStep((i) => i === 1 ? i : i - 1)
+  const handleClickPlusInterval = () => setStep((prev) => prev + 1)
+  const handleClickMinusCount = () => setCount((i) => i - step)
+  const handleClickPlusCount = () => setCount((c) => c + step)
 
 
   return (
     <div className="container">
       <div className="count">
         <button onClick={handleClickMinusInterval}>-</button>
-        <h2>Intervalo: {interval}</h2>
+        <h2>Intervalo: {step}</h2>
         <button onClick={handleClickPlusInterval}>+</button>
       </div>
       <div className="count">
@@ -28,9 +46,7 @@ const App = () => {
         <h2>Contagem: {count}</h2>
         <button onClick={handleClickPlusCount}>+</button>
       </div>
-      <h2>
-        Hoje é {dateFormated}
-      </h2>
+      <DateMsg count={count} />
     </div>
   )
 }
