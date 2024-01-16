@@ -1,31 +1,20 @@
 import { useState } from "react"
 import "./index.css"
 
-const ShowDate = () => {
-  let date = new Date()
-  date = new Intl.DateTimeFormat("pt-br", { dateStyle: "full" }).format(date)
 
-  return <span>{date}</span>
-}
 const App = () => {
   const [interval, setInter] = useState(1)
   const [count, setCount] = useState(1)
 
-  const handleClickMinusInterval = () => {
-    setInter((i) => i - 1)
-  }
+  const date = new Date()
+  const dateFormated = new Intl.DateTimeFormat("pt-br", { dateStyle: "full" })
+    .format(date.setDate(date.getDate() + count))
 
-  const handleClickPlusInterval = () => {
-    setInter((prev) => prev + 1)
-  }
+  const handleClickMinusInterval = () => setInter((i) => i === 1 ? i : i - 1)
+  const handleClickPlusInterval = () => setInter((prev) => prev + 1)
+  const handleClickMinusCount = () => setCount((i) => i - interval)
+  const handleClickPlusCount = () => setCount((c) => c + interval)
 
-  const handleClickMinusCount = () => {
-    setCount((i) => i - 1)
-  }
-
-  const handleClickPlusCount = () => {
-    setCount((c) => c + 1)
-  }
 
   return (
     <div className="container">
@@ -40,7 +29,7 @@ const App = () => {
         <button onClick={handleClickPlusCount}>+</button>
       </div>
       <h2>
-        Hoje é <ShowDate />
+        Hoje é {dateFormated}
       </h2>
     </div>
   )
